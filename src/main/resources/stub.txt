@@ -1,0 +1,1 @@
+This is just a file, that i may grab the resource directory during the Java runtime (@see Main.java)!

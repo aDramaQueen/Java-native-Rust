@@ -1,0 +1,1 @@
+C:\Users\DramaQueen\IdeaProjects\Java-native-Rust\src\main\rust\target\release\native_rust_helloworld.dll: C:\Users\DramaQueen\IdeaProjects\Java-native-Rust\src\main\rust\build.rs C:\Users\DramaQueen\IdeaProjects\Java-native-Rust\src\main\rust\src\lib.rs
