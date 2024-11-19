@@ -5,6 +5,7 @@ Project to call native Rust code via Java Panama API
 
 - Java 22+
 - Jextract
+- Rust v.1.81+
 
 ## Install Jextract
 - Download (early access) version that matches your operating System from: [**here**](https://jdk.java.net/jextract/)
@@ -14,7 +15,7 @@ Project to call native Rust code via Java Panama API
 ## Run Jextract
 - Help Command
     ```shell
-    jextract --help 
+    jextract --help
     ```
 - Generate Binding code from Java to Rust
     ```shell
@@ -38,6 +39,21 @@ Powershell most likely will block the execution. You may deactivate these restri
   ```shell
   powershell -ExecutionPolicy Bypass -File "C:\Program Files\OpenJDK\jextract-22\bin\jextract.ps1" --help 
   ```
+
+## Rust - Toolchains
+(@see [Rust DOCs - Platform Support](https://doc.rust-lang.org/stable/rustc/platform-support.html#platform-support))
+
+- rustup target add armv7-linux-androideabi   # for arm
+- rustup target add i686-linux-android        # for x86
+- rustup target add aarch64-linux-android     # for arm64
+- rustup target add x86_64-linux-android      # for x86_64
+- rustup target add x86_64-unknown-linux-gnu  # for linux-x86-64
+- rustup target add x86_64-apple-darwin       # for darwin x86_64 (if you have an Intel MacOS)
+- rustup target add aarch64-apple-darwin      # for darwin arm64 (if you have a M1 MacOS)
+- rustup target add x86_64-pc-windows-gnu     # for win32-x86-64-gnu
+- rustup target add x86_64-pc-windows-msvc    # for win32-x86-64-msvc
+- ...
+-
 
 # Build by hand
 

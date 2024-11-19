@@ -1,3 +1,5 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
 plugins {
     id 'application'
 }
@@ -14,11 +16,56 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
+test {
+    useJUnitPlatform()
+}
+
 application {
     mainClass = 'org.example.Main'
     applicationDefaultJvmArgs = ["--enable-native-access=ALL-UNNAMED"]
 }
 
-test {
-    useJUnitPlatform()
+jar {
+    // Ignore the entire Rust project for the JAR
+    exclude('src/main/rust')
+}
+
+tasks.register('checkJextract', Exec) {
+    description 'Checks if Jextract is installed, or not'
+    ignoreExitValue true
+
+    commandLine 'jextract', '--help'
+
+    // Store output instead of printing to the console
+    standardOutput = new ByteArrayOutputStream()
+    ext.jextractOutput = {
+        return standardOutput.toString()
+    }
+
+    doLast {
+        if(executionResult.get().exitValue != 0) {
+            throw new GradleException('Could NOT find Jextract on PATH. Look at `README.md`, how to install Jextract and try again.')
+        }
+    }
+}
+
+tasks.register('buildRustLibrary', Exec) {
+    description = 'Compiles Rust library code & builds C header files that call the native Rust code'
+    workingDir 'src/main/rust'
+
+    commandLine 'cargo', 'build', '--profile', 'release'
+}
+
+tasks.register('copyLibraryFiles', Copy) {
+
+}
+
+tasks.register('generateFFICode', Exec) {
+    description = 'Generates C header files for Java FFI'
+    workingDir 'src/main/rust'
+
+    File outputDir = file('src/main/java')
+
+    // The command to generate header files (@see https://github.com/openjdk/jextract/blob/master/doc/GUIDE.md#running-jextract)
+    commandLine 'jextract', '--output', outputDir.absolutePath, '-t', 'org.example', '--include-function', 'hello_world', '--header-class-name', 'hello_world', '-l', 'native_rust_helloworld', 'bindings.h'
 }

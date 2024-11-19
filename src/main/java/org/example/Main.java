@@ -15,7 +15,7 @@ public class Main {
     }
 
     private static void loadDynamicLibrariesWindows() throws URISyntaxException, IOException {
-        Path windows = getResourceDir().resolve("native/win_x86_x64");
+        Path windows = getResourceDir().resolve("native/windows_x86_x64");
         try (Stream<Path> stream = Files.walk(windows)) {
             stream.filter(file -> file.toString().endsWith(".dll")).forEach(file -> System.load(file.toString()));
         }
