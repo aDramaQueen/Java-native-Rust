@@ -1,0 +1,36 @@
+plugins {
+    // @see https://plugins.gradle.org/plugin/org.mozilla.rust-android-gradle.rust-android
+    id 'org.mozilla.rust-android-gradle.rust-android'
+}
+
+// Usage (@see https://github.com/mozilla/rust-android-gradle#usage)
+cargo {
+    module  = '../rust'                 // Directory that contains the Cargo.toml
+    libname = 'native_rust_helloworld'  // Cargo.toml's [package] name
+    // Remember, every toolchain that is mentioned here has to be installed by hand over the Rust toolchain.
+    // Example for Windows 64Bit: "rustup target add x86_64-pc-windows-msvc"
+    // @see https://doc.rust-lang.org/stable/rustc/platform-support.html#platform-support
+    targets = [
+        'linux-x86-64',     // rustup target add x86_64-unknown-linux-gnu (Linux)
+        'darwin-x86-64',    // rustup target add x86_64-apple-darwin (macOS with Intel CPU)
+        'darwin-aarch64',   // rustup target add aarch64-apple-darwin (macOS with M1 CPU)
+        'win32-x86-64-gnu', // rustup target add x86_64-pc-windows-gnu (Windows)
+        'win32-x86-64-msvc' // rustup target add x86_64-pc-windows-msvc (Windows)
+    ]
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

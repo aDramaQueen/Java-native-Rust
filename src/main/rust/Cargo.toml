@@ -9,5 +9,5 @@ edition = "2021"
 cbindgen = "0.27.0"
 
 [lib]
-name = "native_rust_helloworld"
+name = "native_rust_helloworld"  # Change this name to whatever you want
 crate-type = ["cdylib"]

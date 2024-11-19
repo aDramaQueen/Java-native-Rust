@@ -39,7 +39,7 @@ Powershell most likely will block the execution. You may deactivate these restri
   powershell -ExecutionPolicy Bypass -File "C:\Program Files\OpenJDK\jextract-22\bin\jextract.ps1" --help 
   ```
 
-# Build By hand
+# Build by hand
 
 - Generate C header files from Rust code
   ```shell
@@ -48,21 +48,28 @@ Powershell most likely will block the execution. You may deactivate these restri
   ```shell
   cargo build --profile release
   ```
-- Copy all generated library files from `src/main/rust/target/release` directory to the `src/main/resources/native/XXX` directory, where `XXX` is your operating system. E.g.: `linux_x64` for Linux (64bit) systems, `win_x86` for Windows (32bit) systems, `win_x86_64` for Windows (64bit) systems, `linux_arm7` for Linux (Cortex A8 - A17) systems, `darwin` for macOS systems, ...
+- Copy all generated library files from `src/main/rust/target/release` directory to the `src/main/resources/native/XXX` directory, where `XXX` is your operating system. E.g.:
+  - `linux_x64` for Linux (64bit) systems
+  - `win_x86` for Windows (32bit) systems
+  - `win_x86_64` for Windows (64bit) systems
+  - `linux_arm7` for Linux (Cortex A8 - A17) systems
+  - `darwin` for macOS systems
+  - ...
 - Change into this directory (example: Windows 64bit)
   ```shell
   cd src/main/resources/win_x86_x64
   ```
 - Generate the Java binding code, that calls the Rust code over the C header files
   ```shell
-  powershell -ExecutionPolicy Bypass -File "C:\Program Files\OpenJDK\jextract-22\bin\jextract.ps1" --output "../../../java" -t "org.example.natives" --include-function hello_world --header-class-name hello_world_win_x86_64 -l native_rust_helloworld bindings.h
+  powershell jextract --output "../../../java" -t "org.example.natives" --include-function hello_world --header-class-name hello_world_win_x86_64 -l native_rust_helloworld bindings.h
   ```
-- Finally, add the 
+- Finally, add the
+
 ## Generate C header files from Rust code
 
 # Build with Gradle
 TODO...
 
-## What is Java Project Panama?
+## What is Project Panama/Java Foreign-Function Interface?
 
 [**Youtube: Foreign Function & Memory API - A (Quick) Peek Under the Hood**](https://www.youtube.com/watch?v=iwmVbeiA42E)
